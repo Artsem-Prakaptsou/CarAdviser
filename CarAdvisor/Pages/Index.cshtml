@@ -1,0 +1,70 @@
+﻿@page
+@model IndexModel
+<h2>Chat Bot</h2>
+
+<div id="messagesPanel"></div>
+<div>
+     <label for="userInput">Enter your text:</label>
+    <input type="text" id="userInput" name="userInput" class="user-input" />
+    <button id="sendButton" type="button">Send</button>
+</div>
+
+<form method="post" id="myForm">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            function sendRequest() {
+                var userInput = $("#userInput").val();
+                $("#messagesPanel").append("<p class=\"question\">" + userInput + "</p>");
+                var messages = [];
+                var msgs = $("#messagesPanel").find("p");
+                msgs.each(function (index) {
+                    messages.push({
+                        Text: $(this)[0].textContent,
+                        Role: $(this).hasClass("question") ? "user" : "bot"
+                    });
+                });
+
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                $.ajax({
+                    type: "POST",  // Changed from POST to GET
+                    url: "@Url.Page("Index", "UserInput")",
+                    contentType: 'application/json',
+                    headers: {
+                        "RequestVerificationToken": token
+                    },
+                    data: JSON.stringify(messages),
+                    success: function (response) {
+                        $("#messagesPanel").append("<p class=\"answer\">" + response + "</p>");
+                        $("#userInput").val(''); // Clear the input after sending
+                    }
+                });
+            }
+
+            $("#sendButton").click(function () {
+                sendRequest();
+                // $.ajax({
+                //     type: "GET",  // Changed from POST to GET
+                //     url: "@Url.Page("Index", "UserInput")",
+                //     data: { userInput: userInput },
+                //     success: function (response) {
+                //         $("#messagesPanel").append("<p class=\"answer\">" + response + "</p>");
+                //         $("#userInput").val(''); // Clear the input after sending
+                //     }
+                // });
+            });
+
+            $('#userInput').keypress(function (event) {
+                if (event.which === 13) {
+                    event.preventDefault();
+                    sendRequest();
+                }
+            });
+        });
+    </script>
+}
