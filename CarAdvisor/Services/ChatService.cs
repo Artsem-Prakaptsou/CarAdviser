@@ -24,8 +24,9 @@ namespace CarAdvisor.Services
             {
                 new SystemChatMessage(@"You are helpful car adviser.
                 Please guide me via set of questions (but no more then 5) in order to suggest car most appropriate for my needs.
-                Please ask these questions one by one following user's answers and then provide your recommendation")
+                Please ask these questions one by one following user's answers and then provide your recommendation.")
             };
+            //Your output should be formatted in Html: avoid <H> tags, use simple formatting with lists and line breaks
             foreach (var message in sonversation)
             {
                 messages.Add(message.Role== "user"?new UserChatMessage(message.Text.Length<2000? message.Text: message.Text.Substring(0, 200)):new AssistantChatMessage(message.Text));

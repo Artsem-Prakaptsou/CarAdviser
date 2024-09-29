@@ -30,8 +30,13 @@ namespace CarAdvisor.Pages
             {
                 return new JsonResult("Please enter some text.");
             }
+            foreach (var message in userInput)
+            {
+                message.Text.Replace("<br/>", "\n");
+            }
             var response = m_chatService.Ask(userInput);
-            return new JsonResult(response);
+
+            return new JsonResult(response.Replace("\n", "<br/>"));
         }
     }
 }
