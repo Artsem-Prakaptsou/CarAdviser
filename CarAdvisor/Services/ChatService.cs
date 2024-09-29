@@ -28,7 +28,7 @@ namespace CarAdvisor.Services
             };
             foreach (var message in sonversation)
             {
-                messages.Add(message.Role== "user"?new UserChatMessage(message.Text):new AssistantChatMessage(message.Text));
+                messages.Add(message.Role== "user"?new UserChatMessage(message.Text.Length<2000? message.Text: message.Text.Substring(0, 200)):new AssistantChatMessage(message.Text));
             }
 
             var result= m_client.CompleteChat(messages, null);

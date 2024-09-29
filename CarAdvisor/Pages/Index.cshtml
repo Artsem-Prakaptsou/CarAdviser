@@ -4,8 +4,10 @@
 
 <div id="messagesPanel"></div>
 <div>
-     <label for="userInput">Enter your text:</label>
+    <label for="userInput">Enter your text (max 200 characters):</label>
     <input type="text" id="userInput" name="userInput" class="user-input" />
+    <span id="charCount">0 / 200</span>
+    <br/>
     <button id="sendButton" type="button">Send</button>
 </div>
 
@@ -16,6 +18,7 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        //# sourceURL=Art_inline.js
         $(document).ready(function () {
 
             function sendRequest() {
@@ -44,6 +47,8 @@
                         $("#userInput").val(''); // Clear the input after sending
                     }
                 });
+                $('#charCount').text(`0 / 200`);
+                $("#userInput").val('')
             }
 
             $("#sendButton").click(function () {
@@ -64,6 +69,12 @@
                     event.preventDefault();
                     sendRequest();
                 }
+            });
+
+            $('#userInput').on('input', function () {
+                debugger;
+                const count = $(this).val().length;
+                $('#charCount').text(`${count} / 200`);
             });
         });
     </script>
