@@ -1,12 +1,14 @@
 ﻿@page
 @model IndexModel
-<h2>Chat Bot</h2>
+<h2>Car Adviser</h2>
 
 <div id="messagesPanel"></div>
 <div>
-    <label for="userInput">Enter your text (max 200 characters):</label>
     <input type="text" id="userInput" name="userInput" class="user-input" />
-    <span id="charCount">0 / 200</span>
+    <div>
+        <label for="userInput">Please enter your message (max 200 characters):</label>
+        <span id="charCount">0 / 200</span>
+    </div>
     <br/>
     <button id="sendButton" type="button">Send</button>
 </div>
@@ -35,7 +37,7 @@
 
                 var token = $('input[name="__RequestVerificationToken"]').val();
                 $.ajax({
-                    type: "POST",  // Changed from POST to GET
+                    type: "POST",
                     url: "@Url.Page("Index", "UserInput")",
                     contentType: 'application/json',
                     headers: {
@@ -44,7 +46,7 @@
                     data: JSON.stringify(messages),
                     success: function (response) {
                         $("#messagesPanel").append("<p class=\"answer\">" + response + "</p>");
-                        $("#userInput").val(''); // Clear the input after sending
+                        $("#userInput").val('');
                     }
                 });
                 $('#charCount').text(`0 / 200`);

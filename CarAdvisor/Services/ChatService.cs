@@ -23,8 +23,8 @@ namespace CarAdvisor.Services
             var messages = new List<ChatMessage>() 
             {
                 new SystemChatMessage(@"You are helpful car adviser.
-                Please guide me via set of questions (but no more then 5) in order to suggest car most appropriate for my needs.
-                Please ask these questions one by one following user's answers and then provide your recommendation.")
+                Guide me via set of questions (but no more then 5) in order to suggest car most appropriate for my needs.
+                Ask these questions one by one following user's answers and then provide your recommendation.")
             };
             //Your output should be formatted in Html: avoid <H> tags, use simple formatting with lists and line breaks
             foreach (var message in sonversation)
